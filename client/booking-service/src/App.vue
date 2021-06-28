@@ -1,60 +1,101 @@
 <template>
   <v-app>
-    <v-app-bar
+    <v-navigation-drawer
+      v-model="drawerOpen"
+      :mini-variant="miniVariant"
+      :clipped="clipped"
+      fixed
       app
-      color="primary"
-      dark
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-layout column wrap align-items-center>
+        <v-icon x-large>mdi-school</v-icon>
+        <h3 class="logo__text">ILIAS 2.0</h3>
+      </v-layout>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar :clipped-left="clipped" fixed app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <h2>Raumbuchung</h2>
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <user-menu></user-menu>
     </v-app-bar>
-
     <v-main>
-      <HelloWorld/>
+      <v-container>
+
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
+import UserMenu from "./components/layout/UserMenu.vue";
 export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
-  },
-
-  data: () => ({
-    //
-  }),
+  components: { UserMenu },
+  data() {
+    return {
+      clipped: false,
+      drawer: false,
+      fixed: false,
+      items: [
+        {
+          title: "Startseite",
+          to: "/"
+        },
+        {
+          title: "Mail",
+          to: "/"
+        },
+        {
+          title: "Kurse",
+          to: "/"
+        },
+        {
+          title: "Stundenplan",
+          to: "/"
+        },
+        {
+          title: "Prüfungen",
+          to: "/"
+        },
+        {
+          title: "Raumbuchung",
+          to: "/"
+        },
+        {
+          title: "Ein-/Ausloggen",
+          to: "/"
+        }
+      ],
+      accountMenuItems: [
+        {
+          title: "Mein Account"
+        }
+      ],
+      miniVariant: false,
+      right: true,
+      rightDrawer: false,
+      title: "ILIAS 2.0"
+    };
+  }
 };
 </script>
+
+<style>
+.logo__text,
+.user--name {
+  text-align: center;
+}
+</style>
