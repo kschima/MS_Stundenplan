@@ -1,26 +1,37 @@
 const express = require('express');
 const router = express.Router();
-const neo4j_calls = require('./../neo4j_calls/neo4j_api');
+const room_calls = require('./../neo4j_calls/room');
 
 router.get('/', async function (req, res, next) {
-    res.status(200).send("Root Response from :8080/room")
+    let { id } = req.body;
+    let result = await room_calls.getRoom(id);
+    console.log("RESULT IS", result)
+    res.status(200).send({ result })    //Can't send just a Number; encapsulate with {} or convert to String.     
+    return { result };
+})
+
+router.put('/', async function (req, res, next) {
+    //Passing in "name" parameter in body of POST request
+    let { id, name, description } = req.body;
+    let string = await room_calls.updateRoom(id, name, description);
+    res.status(200).send("Room named '" + string + "' updated")
     return 700000;
 })
 
-// router.get('/bookings', async function (req, res, next) {
-//     let result = await neo4j_calls.get_num_nodes();
-//     console.log("RESULT IS", result)
-//     res.status(200).send({ result })    //Can't send just a Number; encapsulate with {} or convert to String.     
-//     return { result };
-// })
+router.post('/', async function (req, res, next) {
+    //Passing in "name" parameter in body of POST request
+    let { id, name, description } = req.body;
+    let string = await room_calls.createRoom(id, name, description);
+    res.status(200).send("Room named '" + string + "' created")
+    return 700000;
+})
 
-// router.post('/neo4j_post', async function (req, res, next) {
-//     //Passing in "name" parameter in body of POST request
-//     let { name } = req.body;
-//     let string = await neo4j_calls.create_user(name);
-//     res.status(200).send("User named " + string + " created")
-//     return 700000;
-//     //res.status(200).send("test delete")
-// })
+router.delete('/', async function (req, res, next) {
+    //Passing in "name" parameter in body of POST request
+    let { id } = req.body;
+    let string = await room_calls.deleteRoom(id);
+    res.status(200).send("Room named '" + string + "' deleted")
+    return 700000;
+})
 
 module.exports = router;
