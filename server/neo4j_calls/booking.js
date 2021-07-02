@@ -2,20 +2,24 @@ let neo4j = require('neo4j-driver');
 let { creds } = require("./../config/credentials");
 let driver = neo4j.driver("bolt://0.0.0.0:7687", neo4j.auth.basic(creds.neo4jusername, creds.neo4jpw));
 
-exports.getBookings = async function () {
+exports.getAllBookings = async function () {
     let session = driver.session();
     let bookings = "No Bookings Were Found";
     try {
         bookings = await session.run('MATCH (b:Booking) RETURN b', {
-        });
+        })
+        let results = await bookings.records.map(row => {
+            return row.get(0).properties;
+        })
+        return results;
     }
     catch (err) {
         console.error(err);
         return bookings;
     }
-    session.close();
-    console.log("RESULT", (!bookings ? 0 : bookings.records));
-    return bookings;
+    finally {
+        session.close();
+    }
 }
 
 exports.getBookingsByUserId = async function (userId) {
@@ -24,35 +28,45 @@ exports.getBookingsByUserId = async function (userId) {
     try {
         bookings = await session.run('MATCH (b:Booking) WHERE b.userId = $userId RETURN b', {
             userId: userId
-        });
+        })
+        let results = await bookings.records.map(row => {
+            return row.get(0).properties;
+        })
+        return results;
     }
     catch (err) {
         console.error(err);
         return bookings;
     }
-    session.close();
-    console.log("RESULT", (!bookings ? 0 : bookings.records));
-    return bookings;
+    finally {
+        session.close();
+    }
 }
 
+//TODO: no booking
 exports.getBooking = async function (id) {
     let session = driver.session();
-    let booking = "No Booking Was Found";
+    let booking = "No Booking Was Found for id: " + id;
     try {
         booking = await session.run('MATCH (b:Booking) WHERE b.id = $id RETURN b', {
             id: id
-        });
+        })
+        // let results = await booking.records.map(row => {
+        //     return row.get(0).properties;
+        // })
+        return booking.records[0].get(0).properties;
     }
     catch (err) {
         console.error(err);
         return booking;
     }
-    session.close();
-    console.log("RESULT", (!booking ? 0 : booking.records));
-    return booking;
+    finally {
+        session.close();
+    }
 }
 
 //TODO: relationship update roomId
+//TODO: SET article.datePublished = date("2019-09-30")
 exports.updateBooking = async function (id, userId, date, from, until, courseBooking) {
     let session = driver.session();
     let booking = "No Booking Was Updated";
@@ -70,9 +84,13 @@ exports.updateBooking = async function (id, userId, date, from, until, courseBoo
         console.error(err);
         return booking;
     }
-    return booking.records[0].get(0).properties.name;
+    finally {
+        session.close();
+    }
+    return booking.records[0].get(0).properties;
 }
 
+//TODO: SET article.datePublished = date("2019-09-30")
 exports.createBooking = async function (id, roomId, userId, date, from, until, courseBooking) {
     let session = driver.session();
     let booking = "No Booking Was Created";
@@ -91,7 +109,10 @@ exports.createBooking = async function (id, roomId, userId, date, from, until, c
         console.error(err);
         return booking;
     }
-    return booking;
+    finally {
+        session.close();
+    }
+    return booking.records[0].get(0).properties;
 }
 
 exports.deleteBooking = async function (id) {
@@ -105,6 +126,9 @@ exports.deleteBooking = async function (id) {
     catch (err) {
         console.error(err);
         return booking;
+    }
+    finally {
+        session.close();
     }
     return booking;
 }

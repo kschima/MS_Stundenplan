@@ -2,20 +2,24 @@ let neo4j = require('neo4j-driver');
 let { creds } = require("./../config/credentials");
 let driver = neo4j.driver("bolt://0.0.0.0:7687", neo4j.auth.basic(creds.neo4jusername, creds.neo4jpw));
 
-exports.getRooms = async function () {
+exports.getAllRooms = async function () {
     let session = driver.session();
     let rooms = "No Rooms Were Found";
     try {
         rooms = await session.run('MATCH (r:Room) RETURN r', {
         });
+        let results = await rooms.records.map(row => {
+            return row.get(0).properties;
+        })
+        return results;
     }
     catch (err) {
         console.error(err);
         return rooms;
     }
-    session.close();
-    console.log("RESULT", (!rooms ? 0 : rooms.records));
-    return (!rooms ? 0 : rooms.records);
+    finally {
+        session.close();
+    }
 }
 
 exports.getRoom = async function (id) {
@@ -25,14 +29,15 @@ exports.getRoom = async function (id) {
         room = await session.run('MATCH (r:Room) WHERE r.id = $id RETURN r', {
             id: id
         });
+        return room.records[0].get(0).properties;
     }
     catch (err) {
         console.error(err);
         return room;
     }
-    session.close();
-    console.log("RESULT", (!room ? 0 : room.records));
-    return (!room ? 0 : room.records);
+    finally {
+        session.close();
+    }
 }
 
 exports.updateRoom = async function (id, name, description) {
@@ -48,6 +53,9 @@ exports.updateRoom = async function (id, name, description) {
     catch (err) {
         console.error(err);
         return room;
+    }
+    finally {
+        session.close();
     }
     return room.records[0].get(0).properties.name;
 }
@@ -66,6 +74,9 @@ exports.createRoom = async function (id, name, description) {
         console.error(err);
         return room;
     }
+    finally {
+        session.close();
+    }
     return room.records[0].get(0).properties.name;
 }
 
@@ -80,6 +91,9 @@ exports.deleteRoom = async function (id) {
     catch (err) {
         console.error(err);
         return room;
+    }
+    finally {
+        session.close();
     }
     return room.records[0].get(0).properties.name;
 }
