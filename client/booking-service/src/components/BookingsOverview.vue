@@ -19,7 +19,7 @@
 </template>
 
 <script>
-
+import ApiService from '@/common/api-service'
 export default {
   components: { },
   data: () => ({
@@ -33,42 +33,35 @@ export default {
       },
       { text: "Tag", value: "day" },
       { text: "Datum", value: "date" },
-      { text: "Raum", value: "room" },
-      { text: "Von", value: "start" },
-      { text: "Bis", value: "end" },
+      { text: "Raum", value: "roomId" },
+      { text: "Von", value: "from" },
+      { text: "Bis", value: "until" },
       { text: "", value: "cancel" },
     ],
-    assessments: [],
-    detailsIndex: -1,
-    detailsItem: {
-      id: "",
-      day: "",
-      date: "",
-      room: "",
-      end: "",
-      cancel: ""
-    }
+    bookings: []
   }),
   created() {
-    this.initialize();
+    this.refreshBookings();
   },
   methods: {
     initialize() {
-      this.bookings = [
-        {
-          id: "1",
-          day: "Mittwoch",
-          date: "07.06.2021",
-          room: "Raum A001",
-          start: "13:00 Uhr",
-          end: "15:30 Uhr",
-          cancel: ""
-        }
-      ]; 
+
+    },
+
+    refreshBookings () {
+      this.loading = true;
+      ApiService.getAllBookings().then(res => {
+        this.bookings = res;
+        console.log(res)
+      });
+      this.loading = false;
     },
 
     cancelBooking(item) {
-        console.log(item + " canceled.");
+      ApiService.deleteBooking(item.id).then(res => {
+        this.refreshBookings();
+        console.log(item.id + " canceled.");
+      });      
     },
 
   }

@@ -1,12 +1,13 @@
-import Vue from 'vue'
+//import Vue from 'vue'
 import axios from 'axios'
 
+//TODO: docker or production url
 const client = axios.create({
   baseURL: 'http://localhost:8080/',
   json: true
 })
 
-export default {
+const ApiService = {
     async execute (method, resource, data) {
       //let accessToken = await Vue.prototype.$auth.getAccessToken()
       return client({
@@ -20,7 +21,7 @@ export default {
         return req.data
       })
     },
-    getBookings () {
+    getAllBookings () {
       return this.execute('get', '/bookings')
     },
     getBookingsByUserId (userId) {
@@ -28,7 +29,7 @@ export default {
     },
     getBooking (id) {
         return this.execute('get', `/booking/${id}`)
-      },
+    },
     createBooking (data) {
       return this.execute('post', '/booking', data)
     },
@@ -36,12 +37,9 @@ export default {
         return this.execute('put', '/booking', data)
     },
     deleteBooking (id) {
-        return this.execute('delete', '/booking/${id}')
+        return this.execute('delete', `/booking/${id}`)
     },
-    updatePost (id, data) {
-      return this.execute('put', `/posts/${id}`, data)
-    },
-    getRooms () {
+    getAllRooms () {
       return this.execute('get', '/rooms')
     },
     getRoom (id) {
@@ -54,6 +52,8 @@ export default {
         return this.execute('put', '/room', data)
     },
     deleteRoom (id) {
-        return this.execute('delete', '/room/${id}')
+        return this.execute('delete', `/room/${id}`)
     }
-  }
+}
+
+export default ApiService;
