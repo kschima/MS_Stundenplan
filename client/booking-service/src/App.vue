@@ -26,24 +26,29 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <h2>Raumbuchung</h2>
       <v-spacer></v-spacer>
       <user-menu></user-menu>
     </v-app-bar>
+
     <v-main>
       <v-container>
-
+        <Bookings/>
       </v-container>
     </v-main>
   </v-app>
+
 </template>
 
 <script>
+
 import UserMenu from "./components/layout/UserMenu.vue";
+import Bookings from "./components/Bookings.vue"
 export default {
-  components: { UserMenu },
+  components: { UserMenu, Bookings },
   data() {
     return {
       clipped: false,
@@ -72,6 +77,10 @@ export default {
         },
         {
           title: "Raumbuchung",
+          to: "/Bookings"
+        },
+                {
+          title: "Raumplanung",
           to: "/"
         },
         {
