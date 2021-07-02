@@ -8,14 +8,18 @@ exports.getAllRooms = async function () {
     try {
         rooms = await session.run('MATCH (r:Room) RETURN r', {
         });
+        let results = await rooms.records.map(row => {
+            return row.get(0).properties;
+        })
+        return results;
     }
     catch (err) {
         console.error(err);
         return rooms;
     }
-    session.close();
-    console.log("RESULT", (!rooms ? 0 : rooms.records));
-    return (!rooms ? 0 : rooms.records);
+    finally {
+        session.close();
+    }
 }
 
 exports.getRoom = async function (id) {
@@ -25,14 +29,15 @@ exports.getRoom = async function (id) {
         room = await session.run('MATCH (r:Room) WHERE r.id = $id RETURN r', {
             id: id
         });
+        return room.records[0].get(0).properties;
     }
     catch (err) {
         console.error(err);
         return room;
     }
-    session.close();
-    console.log("RESULT", (!room ? 0 : room.records));
-    return (!room ? 0 : room.records);
+    finally {
+        session.close();
+    }
 }
 
 exports.updateRoom = async function (id, name, description) {
@@ -49,7 +54,9 @@ exports.updateRoom = async function (id, name, description) {
         console.error(err);
         return room;
     }
-    session.close();
+    finally {
+        session.close();
+    }
     return room.records[0].get(0).properties.name;
 }
 
@@ -67,7 +74,9 @@ exports.createRoom = async function (id, name, description) {
         console.error(err);
         return room;
     }
-    session.close();
+    finally {
+        session.close();
+    }
     return room.records[0].get(0).properties.name;
 }
 
@@ -83,6 +92,8 @@ exports.deleteRoom = async function (id) {
         console.error(err);
         return room;
     }
-    session.close();
+    finally {
+        session.close();
+    }
     return room.records[0].get(0).properties.name;
 }
