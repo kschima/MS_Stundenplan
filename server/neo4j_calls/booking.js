@@ -2,7 +2,7 @@ let neo4j = require('neo4j-driver');
 let { creds } = require("./../config/credentials");
 let driver = neo4j.driver("bolt://0.0.0.0:7687", neo4j.auth.basic(creds.neo4jusername, creds.neo4jpw));
 
-exports.getBookings = async function () {
+exports.getAllBookings = async function () {
     let session = driver.session();
     let bookings = "No Bookings Were Found";
     try {
@@ -53,6 +53,7 @@ exports.getBooking = async function (id) {
 }
 
 //TODO: relationship update roomId
+//TODO: SET article.datePublished = date("2019-09-30")
 exports.updateBooking = async function (id, userId, date, from, until, courseBooking) {
     let session = driver.session();
     let booking = "No Booking Was Updated";
@@ -70,9 +71,11 @@ exports.updateBooking = async function (id, userId, date, from, until, courseBoo
         console.error(err);
         return booking;
     }
+    session.close();
     return booking.records[0].get(0).properties.name;
 }
 
+//TODO: SET article.datePublished = date("2019-09-30")
 exports.createBooking = async function (id, roomId, userId, date, from, until, courseBooking) {
     let session = driver.session();
     let booking = "No Booking Was Created";
@@ -91,6 +94,7 @@ exports.createBooking = async function (id, roomId, userId, date, from, until, c
         console.error(err);
         return booking;
     }
+    session.close();
     return booking;
 }
 
@@ -106,5 +110,6 @@ exports.deleteBooking = async function (id) {
         console.error(err);
         return booking;
     }
+    session.close();
     return booking;
 }
