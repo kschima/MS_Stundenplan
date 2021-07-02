@@ -4,8 +4,15 @@ let driver = neo4j.driver("bolt://0.0.0.0:7687", neo4j.auth.basic(creds.neo4juse
 
 exports.getRooms = async function () {
     let session = driver.session();
-    const rooms = await session.run('MATCH (r:Room) RETURN r', {
-    });
+    let rooms = "No Rooms Were Found";
+    try {
+        rooms = await session.run('MATCH (r:Room) RETURN r', {
+        });
+    }
+    catch (err) {
+        console.error(err);
+        return rooms;
+    }
     session.close();
     console.log("RESULT", (!rooms ? 0 : rooms.records));
     return (!rooms ? 0 : rooms.records);
@@ -13,9 +20,16 @@ exports.getRooms = async function () {
 
 exports.getRoom = async function (id) {
     let session = driver.session();
-    const room = await session.run('MATCH (r:Room) WHERE r.id = $id RETURN r', {
-        id: id
-    });
+    let room = "No Room Was Found with id: " + id;
+    try {
+        room = await session.run('MATCH (r:Room) WHERE r.id = $id RETURN r', {
+            id: id
+        });
+    }
+    catch (err) {
+        console.error(err);
+        return room;
+    }
     session.close();
     console.log("RESULT", (!room ? 0 : room.records));
     return (!room ? 0 : room.records);
@@ -59,7 +73,7 @@ exports.deleteRoom = async function (id) {
     let session = driver.session();
     let room = "No Room Was Deleted";
     try {
-        room = await session.run('MATCH (r:Room) WHERE r.id = $id DELETE r RETURN r', {
+        room = await session.run('MATCH (r:Room) WHERE r.id = $id DETACH DELETE r RETURN r', {
             id: id
         });
     }
