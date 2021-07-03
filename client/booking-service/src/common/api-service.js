@@ -25,7 +25,7 @@ const ApiService = {
       return this.execute('get', '/bookings')
     },
     getBookingsByUserId (userId) {
-      return this.execute('get', `/booking/${userId}`)
+      return this.execute('get', `/bookings/${userId}`)
     },
     getBooking (id) {
         return this.execute('get', `/booking/${id}`)

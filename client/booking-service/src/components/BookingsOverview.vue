@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import ApiService from '@/common/api-service'
+import ApiService from '../common/api-service'
 export default {
   components: { },
   data: () => ({
@@ -38,7 +38,8 @@ export default {
       { text: "Bis", value: "until" },
       { text: "", value: "cancel" },
     ],
-    bookings: []
+    bookings: [],
+    userId: 2
   }),
   created() {
     this.refreshBookings();
@@ -50,7 +51,7 @@ export default {
 
     refreshBookings () {
       this.loading = true;
-      ApiService.getAllBookings().then(res => {
+      ApiService.getBookingsByUserId(this.userId).then(res => {
         this.bookings = res;
         console.log(res)
       });
