@@ -94,8 +94,9 @@ exports.updateBooking = async function (id, userId, date, from, until, courseBoo
 exports.createBooking = async function (id, roomId, userId, date, from, until, courseBooking) {
     let session = driver.session();
     let booking = "No Booking Was Created";
+    //'MATCH (r:Room) WHERE r.id = $roomId CREATE (b:Booking {id: $id, roomId: $roomId, userId: $userId, date: date($date), from: $from, until: $until, courseBooking: $courseBooking})-[rel:IN_ROOM]->(r) RETURN b'
     try {
-        booking = await session.run('MATCH (r:Room) WHERE r.id = $roomId CREATE (b:Booking {id: $id, roomId: $roomId, userId: $userId, date: $date, from: $from, until: $until, courseBooking: $courseBooking})-[rel:IN_ROOM]->(r) RETURN b', {
+        booking = await session.run('CREATE (b:Booking {id: $id, roomId: $roomId, userId: $userId, date: $date, from: $from, until: $until, courseBooking: $courseBooking}) RETURN b', {
             id: id,
             roomId: roomId,
             userId: userId,
