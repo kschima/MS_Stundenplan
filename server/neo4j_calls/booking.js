@@ -1,6 +1,8 @@
+import Env from '../config/Env.js'
+
 let neo4j = require('neo4j-driver');
 let { creds } = require("./../config/credentials");
-let driver = neo4j.driver("bolt://0.0.0.0:7687", neo4j.auth.basic(creds.neo4jusername, creds.neo4jpw));
+let driver = neo4j.driver(Env.DB_URL, neo4j.auth.basic(creds.neo4jusername, creds.neo4jpw));
 
 exports.getAllBookings = async function () {
     let session = driver.session();
@@ -28,6 +30,27 @@ exports.getBookingsByUserId = async function (userId) {
     try {
         bookings = await session.run('MATCH (b:Booking) WHERE b.userId = $userId RETURN b', {
             userId: userId
+        })
+        let results = await bookings.records.map(row => {
+            return row.get(0).properties;
+        })
+        return results;
+    }
+    catch (err) {
+        console.error(err);
+        return bookings;
+    }
+    finally {
+        session.close();
+    }
+}
+
+exports.getBookingsByDate = async function (date) {
+    let session = driver.session();
+    let bookings = "No Bookings Were Found for date: " + date;
+    try {
+        bookings = await session.run('MATCH (b:Booking) WHERE b.date = $date RETURN b', {
+            date: date
         })
         let results = await bookings.records.map(row => {
             return row.get(0).properties;
