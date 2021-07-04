@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: booking
+  name: stundenplan
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: booking
+      app: stundenplan
   # strategy:
   #   rollingUpdate:
   #     maxSurge: 1
@@ -15,22 +15,22 @@ spec:
   template:
     metadata:
       labels:
-        app: booking
+        app: stundenplan
     spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
-      - name: booking
-        image: sgse2021containerregistry.azurecr.io/booking:latest
+      - name: stundenplan
+        image: sgse2021containerregistry.azurecr.io/ms_stundenplan:latest
         ports:
         - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: booking
+  name: stundenplan
 spec:
   ports:
   - port: 8080
   selector:
-    app: booking
+    app: stundenplan
