@@ -1,9 +1,10 @@
 //import Vue from 'vue'
 import axios from 'axios'
+import Env from '../Env.js'
 
 //TODO: docker or production url
 const client = axios.create({
-  baseURL: 'http://localhost:8080/',
+  baseURL: Env.BACKEND_URL,
   json: true
 })
 
@@ -26,6 +27,9 @@ const ApiService = {
     },
     getBookingsByUserId (userId) {
       return this.execute('get', `/bookings/${userId}`)
+    },
+    getBookingsByDate (date) {
+      return this.execute('get', `/bookings/date/${date}`)
     },
     getBooking (id) {
         return this.execute('get', `/booking/${id}`)
