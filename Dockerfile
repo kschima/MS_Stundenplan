@@ -2,7 +2,7 @@ FROM node:lts AS ui-build
 WORKDIR /usr/src/app
 COPY client/    /usr/src/app/client/
 
-RUN cd client/booking-service && npm install && npm run serve
+RUN cd client/booking-service && npm install && npm run build
 
 # FROM node:lts AS server-build
 # WORKDIR /usr/src/app
