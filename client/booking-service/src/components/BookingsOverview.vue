@@ -1,27 +1,27 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="bookings"
-    :items-per-page="5"
-    class="elevation-1"
-  >
-    <template v-slot:top>
+  <v-container fluid>
+    <template>
       <v-toolbar flat>
         <v-toolbar-title>Meine Buchungen</v-toolbar-title>
       </v-toolbar>
     </template>
-    <template v-slot:item.cancel="{ item }">
-      <v-btn @click="cancelBooking(item)">
-        stornieren
-      </v-btn>
-    </template>
-  </v-data-table>
+    <v-data-table
+      :headers="headers"
+      :items="bookings"
+      :items-per-page="5"
+      class="elevation-1"
+    >
+      <template v-slot:item.cancel="{ item }">
+        <v-btn @click="cancelBooking(item)"> stornieren </v-btn>
+      </template>
+    </v-data-table>
+  </v-container>
 </template>
 
 <script>
-import ApiService from '../common/api-service'
+import ApiService from "../common/api-service";
 export default {
-  components: { },
+  components: {},
   data: () => ({
     detailsDialog: false,
     headers: [
@@ -29,7 +29,7 @@ export default {
         text: "ID",
         align: "start",
         sortable: false,
-        value: "id"
+        value: "id",
       },
       { text: "Tag", value: "day" },
       { text: "Datum", value: "date" },
@@ -39,32 +39,29 @@ export default {
       { text: "", value: "cancel" },
     ],
     bookings: [],
-    userId: 2
+    userId: 2,
   }),
   created() {
     this.refreshBookings();
   },
   methods: {
-    initialize() {
+    initialize() {},
 
-    },
-
-    refreshBookings () {
+    refreshBookings() {
       this.loading = true;
-      ApiService.getBookingsByUserId(this.userId).then(res => {
+      ApiService.getBookingsByUserId(this.userId).then((res) => {
         this.bookings = res;
-        console.log(res)
+        console.log(res);
       });
       this.loading = false;
     },
 
     cancelBooking(item) {
-      ApiService.deleteBooking(item.id).then(res => {
+      ApiService.deleteBooking(item.id).then((res) => {
         this.refreshBookings();
         console.log(item.id + " canceled.");
-      });      
+      });
     },
-
-  }
+  },
 };
 </script>
