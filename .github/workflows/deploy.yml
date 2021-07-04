@@ -11,7 +11,7 @@ on:
 env:
   IMAGE_NAME: booking
   SERVICE_NAME: booking
-  DOCKERFILE: ./client/booking-service/Dockerfile
+  DOCKERFILE: ./Dockerfile
   MANIFESTFILE: manifests/ms-stundenplan.yaml
 
 jobs:
