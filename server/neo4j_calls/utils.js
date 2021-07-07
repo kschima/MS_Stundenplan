@@ -1,7 +1,7 @@
-import Env from '../config/Env.js'
+let Env = require("../config/Env");
 
 let neo4j = require('neo4j-driver');
-let { creds } = require("./../config/credentials");
+let { creds } = require("../config/credentials");
 let driver = neo4j.driver(Env.DB_URL, neo4j.auth.basic(creds.neo4jusername, creds.neo4jpw));
 
 exports.deleteNodesAndRelationships = async function () {
