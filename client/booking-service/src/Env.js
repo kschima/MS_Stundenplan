@@ -1,3 +1,3 @@
 module.exports = {
-    BACKEND_URL: process.env.NODE_ENV === 'production' ? "http://sgse2021.westeurope.cloudapp.azure.com/bookings/api:8080" : "http://localhost:8080/"
+    BACKEND_URL: process.env.NODE_ENV === 'production' ? "https://sgse2021-ilias.westeurope.cloudapp.azure.com/booking-api/" : "http://localhost:8080/"
 }
