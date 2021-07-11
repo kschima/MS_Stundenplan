@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stundenplan
+  name: stundenplan-frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: stundenplan
+      app: stundenplan-frontend
   # strategy:
   #   rollingUpdate:
   #     maxSurge: 1
@@ -15,22 +15,22 @@ spec:
   template:
     metadata:
       labels:
-        app: stundenplan
+        app: stundenplan-frontend
     spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
-      - name: stundenplan
-        image: sgse2021containerregistry.azurecr.io/ms_stundenplan:latest
+      - name: stundenplan-frontend
+        image: sgse2021cr.azurecr.io/ms_stundenplan-frontend:latest
         ports:
         - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: stundenplan
+  name: stundenplan-frontend
 spec:
   ports:
   - port: 8080
   selector:
-    app: stundenplan
+    app: stundenplan-frontend

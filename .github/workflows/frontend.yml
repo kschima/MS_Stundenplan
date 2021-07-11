@@ -9,10 +9,10 @@ on:
   workflow_dispatch:
   
 env:
-  IMAGE_NAME: ms_stundenplan
-  SERVICE_NAME: stundenplan
+  IMAGE_NAME: ms_stundenplan-frontend
+  SERVICE_NAME: stundenplan-frontend
   DOCKERFILE: ./client/booking-service/Dockerfile
-  MANIFESTFILE: manifests/ms-stundenplan.yaml
+  MANIFESTFILE: manifests/ms-stundenplan-frontend.yaml
 
 jobs:
   build:
