@@ -38,12 +38,45 @@ const rooms = [
         name: "B02",
         description: "Kleiner Raum"
     },
-    {
-        id: "8",
-        name: "A03",
-        description: "Kleiner Raum"
-    },
 ]
+
+const slots = [
+    {
+      id: "0",
+      from: "08:00",
+      until: "10:00",
+      booked: false,
+      userId: ""
+    },
+    {
+      id: "1",
+      from: "10:00",
+      until: "12:00",
+      booked: false,
+      userId: ""
+    },
+    {
+      id: "2",
+      from: "12:00",
+      until: "14:00",
+      booked: false,
+      userId: ""
+    },
+    {
+      id: "3",
+      from: "14:00",
+      until: "16:00",
+      booked: false,
+      userId: ""
+    },
+    {
+        id: "4",
+        from: "16:00",
+        until: "18:00",
+        booked: false,
+        userId: ""
+    },
+  ]
 
 const bookings = [
     {  
@@ -94,15 +127,35 @@ const bookings = [
 
 ]
 
+const days = [
+    "2021-07-11",
+    "2021-07-12",
+    "2021-07-13",
+]
+
+
 exports.init = async function () {
     await utils_calls.deleteNodesAndRelationships();
 
-    rooms.forEach(room => {
-        room_calls.createRoom(room.id, room.name, room.description);
-    });
+    // rooms.forEach(room => {
+    //     room_calls.createRoom(room.id, room.name, room.description);
+    // });
 
-    bookings.forEach(booking => {
-        booking_calls.createBooking(booking.id, booking.roomId, booking.userId, booking.date, booking.from, booking.until, booking.courseBooking); 
+    // bookings.forEach(booking => {
+    //     booking_calls.createBooking(booking.id, booking.roomId, booking.userId, booking.date, booking.from, booking.until, booking.courseBooking); 
+    // });
+
+    await days.forEach(async day => {
+         await room_calls.createDay(day);
+         
+         rooms.forEach(async room => {
+            await room_calls.createRoomDate(day, room.name, room.description);
+            
+            slots.forEach(slot => {
+                room_calls.createSlotRoom(day, room.name, slot.id, slot.from, slot.until, slot.booked);
+            });
+        });
+        
     });
 
 }

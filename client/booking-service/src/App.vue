@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-navigation-drawer
-      v-model="drawerOpen"
+      v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
       fixed
@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       clipped: false,
-      drawer: false,
+      drawer: true,
       fixed: false,
       items: [
         {

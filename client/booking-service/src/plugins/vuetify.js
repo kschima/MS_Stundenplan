@@ -10,4 +10,7 @@ export default new Vuetify({
         locales: { de },
         current: 'de',
     },
+    theme: {
+        "primary": "#3f51b5",
+    }
 })
