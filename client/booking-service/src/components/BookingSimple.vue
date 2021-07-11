@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-toolbar flat>
-      <v-toolbar-title>Verfügbare Räume</v-toolbar-title>
+      <v-toolbar-title>Raum buchen</v-toolbar-title>
     </v-toolbar>
     <v-col cols="12" sm="6" md="4">
       <v-menu
@@ -44,45 +44,25 @@
           </v-btn>
         </v-date-picker>
       </v-menu>
+      <v-select
+        :items="rooms"
+        item-text="name"
+        item-value="id"
+        v-model="selectedRooms"
+        label="Raum"
+      ></v-select>
+      <v-select
+        :items="timeSlots"
+        v-model="selectedFrom"
+        label="Von"
+      ></v-select>
+      <v-select
+        :items="timeSlots"
+        v-model="selectedUntil"
+        label="Bis"
+      ></v-select>
+      <v-btn @click="makeBooking()"> Buchen </v-btn>
     </v-col>
-    <v-data-iterator :items="dayBookings" item-key="room" sort-by="room">
-      <template v-slot:default="{ items }">
-        <v-row>
-          <v-col
-            v-for="item in items"
-            :key="item.room"
-            cols="12"
-            sm="6"
-            md="4"
-            lg="3"
-          >
-            <v-card>
-              <v-card-title>
-                <h4>{{ item.room }}</h4>
-              </v-card-title>
-              <v-card-subtitle>
-                {{ item.description }}
-              </v-card-subtitle>
-              <v-divider></v-divider>
-
-              <v-list dense>
-                <v-list-item
-                  v-for="slot in item.slots"
-                  
-                  v-bind:key="slot.properties.id"
-                  :disabled="slot.properties.booked"
-                  @click="book(slot.identity.low)"
-                >
-                  <v-list-item-content
-                    >{{ slot.properties.from }} - {{ slot.properties.until }}</v-list-item-content
-                  >
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-col>
-        </v-row>
-      </template>
-    </v-data-iterator>
   </v-container>
 </template>
 
@@ -91,39 +71,66 @@ import ApiService from "../common/api-service";
 export default {
   components: {},
   data: () => ({
-    dayBookings: [],
+    rooms: [],
     date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
       .substr(0, 10),
     menu: false,
+    modal: false,
+    menu2: false,
+    bookingsDate: [],
+    timeSlots: ["08:00", "10:00", "12:00"],
+    selectedFrom: "",
+    selectedUntil: "",
+    selectedRoom: "",
+    userId: "2",
   }),
   created() {
-    this.refreshMyBookings();
+    this.refreshRooms();
     this.refreshDayBookings();
   },
   methods: {
     initialize() {},
 
-    refreshMyBookings() {
-
-    },
-
-    refreshDayBookings() {
+    refreshRooms() {
       this.loading = true;
-      ApiService.getDayBooking(this.date).then((res) => {
-        this.dayBookings = res;
+      ApiService.getAllRooms().then((res) => {
+        this.rooms = res;
         console.log(res);
       });
       this.loading = false;
     },
 
-    book(id) {
-      console.log("book " + id);
-      ApiService.book(id).then((res) => {
-        this.refreshDayBookings();
+    refreshDayBookings() {
+      this.loading = true;
+      ApiService.getBookingsByDate(this.date).then((res) => {
+        this.bookingsDate = res;
+        console.log(res);
       });
+      this.loading = false;
     },
-    
+    getDayBookings(roomId) {
+      return this.bookingsDate.filter(
+        (item) => item.roomId == roomId && item.userId == ""
+      );
+    },
+    makeBooking() {
+      console.log(this.$refs.form);
+      let booking = {
+        id: "12",
+        userId: this.userId,
+        date: this.date,
+        from: this.selectedFrom,
+        until: this.selectedUntil,
+        courseBooking: false,
+        roomId: this.selectedRoom,
+      };
+      ApiService.createBooking(booking).then((res) => {
+        this.refreshDayBookings();
+        console.log(res);
+      });
+      this.$root.$emit('eventing', "something");
+    },
   },
 };
 </script>

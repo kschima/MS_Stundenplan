@@ -10,6 +10,7 @@ let bookingRouter = require('./routes/booking-router');
 let bookingsRouter = require('./routes/bookings-router');
 let roomRouter = require('./routes/room-router');
 let roomsRouter = require('./routes/rooms-router');
+let dayRouter = require('./routes/day-router')
 
 let initDb = require('./init-db');
 
@@ -33,6 +34,7 @@ app.use('/booking', bookingRouter);
 app.use('/bookings', bookingsRouter);
 app.use('/room', roomRouter);
 app.use('/rooms', roomsRouter);
+app.use('/day', dayRouter);
 
 console.log("Server running on 8080")
 
