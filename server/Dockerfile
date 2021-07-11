@@ -6,7 +6,7 @@ WORKDIR /usr/src/app/server
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY server/package*.json /usr/src/app/server/
-COPY server/app.js /usr/src/app/server/
+COPY server/ /usr/src/app/server/
 
 RUN npm install
 # If you are building your code for production
