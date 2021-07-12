@@ -1,7 +1,6 @@
 let Env = require("../config/Env");
 
 let neo4j = require('neo4j-driver');
-let { creds } = require("./../config/credentials");
 let driver = neo4j.driver(Env.DB_URL, neo4j.auth.basic(Env.DB_USER, Env.DB_PASSWORD));
 
 exports.getAllBookings = async function () {
