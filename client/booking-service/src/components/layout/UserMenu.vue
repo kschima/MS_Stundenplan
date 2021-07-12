@@ -23,12 +23,18 @@ export default {
       { title: "Click Me" },
       { title: "Click Me" },
       { title: "Click Me 2" }
-    ]
+    ],
+    testUser: {"uid":"LhlFb8g5C6hu8cTMntTdgyR4z7X2","firstname":"Julia","lastname":"Meier","role":1}
   }),
   methods: {
     getUsername() {
-      let currentUser = this.$cookies.get('current-user');
-      return currentUser.firstname + " " + currentUser.lastname;
+      let currentUser = localStorage.getItem("current-user") ? localStorage.getItem("current-user") : this.testUser;
+      if (currentUser) {
+        return currentUser.firstname + " " + currentUser.lastname
+      }
+      else {
+        return "Anonymous"
+      }
     },
   },
 };

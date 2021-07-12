@@ -67,8 +67,7 @@
 
               <v-list dense>
                 <v-list-item
-                  v-for="slot in item.slots"
-                  
+                  v-for="slot in sorted(item.slots)"
                   v-bind:key="slot.properties.id"
                   :disabled="slot.properties.booked"
                   @click="book(slot.identity.low)"
@@ -96,6 +95,7 @@ export default {
       .toISOString()
       .substr(0, 10),
     menu: false,
+    testUserId: "LhlFb8g5C6hu8cTMntTdgyR4z7X2"
   }),
   created() {
     this.refreshMyBookings();
@@ -104,23 +104,32 @@ export default {
   methods: {
 
     refreshMyBookings() {
-      console.log("refreshMyBookings")
+      //console.log("refreshMyBookings")
     },
 
     refreshDayBookings() {
       this.loading = true;
       ApiService.getDayBooking(this.date).then((res) => {
         this.dayBookings = res;
-        console.log(res);
+        //console.log(res);
       });
       this.loading = false;
     },
 
     book(id) {
+      let userId = localStorage.getItem("current-user") ? localStorage.getItem("current-user").uid : this.testUserId;
       console.log("book " + id);
-      ApiService.book(id).then((res) => {
+      console.log("userID: " + userId)
+      let data = {userId: userId};
+      ApiService.book(id, data).then((res) => {
         this.refreshDayBookings();
       });
+    },
+    mycomparator(a,b) {
+      return parseInt(a.properties.id, 10) - parseInt(b.properties.id, 10);
+    },
+    sorted(array) {
+      return array.sort(this.mycomparator)
     },
 
   },

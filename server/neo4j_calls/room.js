@@ -141,13 +141,14 @@ exports.createSlotRoom = async function (date, name, id, from, until, booked) {
     let session = driver.session();
     let slot = "No Room Was Created";
     try {
-        slot = await session.run('MATCH (d:Date {date: $date})<-[:ROOM_DAY]-(r:RoomDate {name: $name}) CREATE (s:Slot {id: $id, from: $from, until: $until, booked: $booked})-[:SLOT_ROOM]->(r) return d,r,s', {
+        slot = await session.run('MATCH (d:Date {date: $date})<-[:ROOM_DAY]-(r:RoomDate {name: $name}) CREATE (s:Slot {id: $id, from: $from, until: $until, booked: $booked, userId: $userId})-[:SLOT_ROOM]->(r) return d,r,s', {
             date: date,
             name: name,
             id: id,
             from: from,
             until: until,
-            booked: booked
+            booked: booked,
+            userId: ""
         });
     }
     catch (err) {
@@ -180,14 +181,15 @@ exports.getDay = async function (date) {
     }
 }
 
-exports.book = async function (id) {
+exports.book = async function (id, userId) {
     let session = driver.session();
     let day = "Nothing booked: " + id;
     try {
-        day = await session.run('match (r) where id(r) = toInteger($id) SET r.booked = true return r', {
-            id:id
+        day = await session.run('match (r) where id(r) = toInteger($id) SET r.booked = true, r.userId = $userId return r', {
+            id:id,
+            userId: userId
         });
-        return day.get(0);
+        return day;
     }
     catch (err) {
         console.error(err);
@@ -200,16 +202,40 @@ exports.book = async function (id) {
 
 exports.myBookings = async function (userId) {
     let session = driver.session();
-    let bookings = "Nothing booked: " + userId;
+    let slots = "Nothing booked: " + userId;
     try {
-        bookings = await session.run('match (s:Slot) where s.userId = $userId return s', {
-            id:id
+        slots = await session.run('match (d:Date)<-[:ROOM_DAY]-(r:RoomDate)<-[:SLOT_ROOM]-(s {userId: $userId}) RETURN {date: d.date, room: r.name, from:s.from, until: s.until, id: id(s)}', {
+            userId: String(userId)
         });
-        return bookings.get(0);
+        return await slots.records.map(row => {
+            return row.get(0);
+        });
     }
     catch (err) {
         console.error(err);
-        return bookings;
+        return slots;
+    }
+    finally {
+        session.close();
+    }
+}
+
+exports.cancelSlot = async function (id) {
+    let session = driver.session();
+    console.log("cancel id: " + id);
+    let slots = "Nothing canceled: " + id;
+    try {
+        slots = await session.run('match (s:Slot) where id(s) = $id set s.booked = false, s.userId = "" return s', {
+            id: parseInt(id)
+        });
+        // return await slots.records.map(row => {
+        //     return row.get(0);
+        // });
+        return slots;
+    }
+    catch (err) {
+        console.error(err);
+        return slots;
     }
     finally {
         session.close();

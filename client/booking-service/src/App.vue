@@ -17,7 +17,6 @@
           v-for="(item, i) in items"
           :key="i"
           :href="item.to"
-          @click="item.click"
           router
           exact
         >
@@ -82,8 +81,7 @@ export default {
         },
         {
           title: "Ausloggen",
-          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/users/",
-          click: localStorage.removeItem("current-user")
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/users/"
         }
       ],
       accountMenuItems: [
