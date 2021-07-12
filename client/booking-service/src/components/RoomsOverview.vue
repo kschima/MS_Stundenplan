@@ -117,9 +117,8 @@ export default {
     },
 
     book(id) {
-      let userId = localStorage.getItem("current-user") ? localStorage.getItem("current-user").uid : this.testUserId;
-      console.log("book " + id);
-      console.log("userID: " + userId)
+      let currentUser = JSON.parse(localStorage.getItem("current-user"));
+      let userId = currentUser.uid;
       let data = {userId: userId};
       ApiService.book(id, data).then((res) => {
         this.refreshDayBookings();

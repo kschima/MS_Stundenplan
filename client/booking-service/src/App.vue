@@ -81,7 +81,7 @@ export default {
         },
         {
           title: "Ausloggen",
-          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/users/"
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/users/logout/"
         }
       ],
       accountMenuItems: [

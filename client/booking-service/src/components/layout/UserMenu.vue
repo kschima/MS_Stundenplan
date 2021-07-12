@@ -28,13 +28,8 @@ export default {
   }),
   methods: {
     getUsername() {
-      let currentUser = localStorage.getItem("current-user") ? localStorage.getItem("current-user") : this.testUser;
-      if (currentUser) {
-        return currentUser.firstname + " " + currentUser.lastname
-      }
-      else {
-        return "Anonymous"
-      }
+      let currentUser = JSON.parse(localStorage.getItem("current-user"));
+      return currentUser.firstname + " " + currentUser.lastname
     },
   },
 };

@@ -60,7 +60,6 @@ const ApiService = {
     return this.execute('get', `/day/${date}`)
   },
   book(id, userId) {
-    console.log(userId);
     return this.execute('put', `/day/book/${id}`, userId)
   },
   getMyBookings(userId) {

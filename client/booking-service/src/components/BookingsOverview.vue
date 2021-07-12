@@ -47,7 +47,8 @@ export default {
   methods: {
 
     refreshBookings() {
-      let userId = localStorage.getItem("current-user") ? localStorage.getItem("current-user").uid : this.testUserId;
+      let currentUser = JSON.parse(localStorage.getItem("current-user"));
+      let userId = currentUser.uid;
       this.loading = true;
       ApiService.getMyBookings(userId).then((res) => {
         this.bookings = res;
