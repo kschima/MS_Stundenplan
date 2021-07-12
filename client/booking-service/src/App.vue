@@ -17,7 +17,6 @@
           v-for="(item, i) in items"
           :key="i"
           :href="item.to"
-          @click="item.click"
           router
           exact
         >

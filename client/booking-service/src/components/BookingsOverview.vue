@@ -51,7 +51,7 @@ export default {
       this.loading = true;
       ApiService.getMyBookings(userId).then((res) => {
         this.bookings = res;
-        console.log(res);
+        //console.log(res);
       });
       this.loading = false;
     },

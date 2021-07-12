@@ -69,7 +69,6 @@
                 <v-list-item
                   v-for="slot in sorted(item.slots)"
                   v-bind:key="slot.properties.id"
-                  v-bind:sort-by="slot.properties.from"
                   :disabled="slot.properties.booked"
                   @click="book(slot.identity.low)"
                 >
@@ -105,14 +104,14 @@ export default {
   methods: {
 
     refreshMyBookings() {
-      console.log("refreshMyBookings")
+      //console.log("refreshMyBookings")
     },
 
     refreshDayBookings() {
       this.loading = true;
       ApiService.getDayBooking(this.date).then((res) => {
         this.dayBookings = res;
-        console.log(res);
+        //console.log(res);
       });
       this.loading = false;
     },
@@ -130,7 +129,6 @@ export default {
       return parseInt(a.properties.id, 10) - parseInt(b.properties.id, 10);
     },
     sorted(array) {
-      console.log(array)
       return array.sort(this.mycomparator)
     },
 
