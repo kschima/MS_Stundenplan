@@ -45,7 +45,6 @@ export default {
     this.refreshBookings();
   },
   methods: {
-    initialize() {},
 
     refreshBookings() {
       this.loading = true;

@@ -78,74 +78,23 @@ const slots = [
     },
   ]
 
-const bookings = [
-    {  
-        id: "1",
-        roomId: "2",
-        userId: "2",
-        date: "21.06.2021",
-        from: "10:00",
-        until: "12:00",
-        courseBooking: true
-    },
-    {  
-        id: "2",
-        roomId: "2",
-        userId: "2",
-        date: "21.06.2021",
-        from: "12:00",
-        until: "14:00",
-        courseBooking: true
-    },
-    {  
-        id: "3",
-        roomId: "3",
-        userId: "",
-        date: "22.06.2021",
-        from: "12:00",
-        until: "14:00",
-        courseBooking: true
-    },
-    {  
-        id: "4",
-        roomId: "3",
-        userId: "",
-        date: "22.06.2021",
-        from: "12:00",
-        until: "14:00",
-        courseBooking: true
-    },
-    {  
-        id: "5",
-        roomId: "3",
-        userId: "",
-        date: "22.06.2021",
-        from: "12:00",
-        until: "14:00",
-        courseBooking: true
-    },
-
-]
-
 const days = [
-    "2021-07-11",
     "2021-07-12",
     "2021-07-13",
+    "2021-07-14",
+    "2021-07-15",
+    "2021-07-16",
+    "2021-07-17",
+    "2021-07-18",
+    "2021-07-19",
+    "2021-07-20",
 ]
 
 
 exports.init = async function () {
     await utils_calls.deleteNodesAndRelationships();
 
-    // rooms.forEach(room => {
-    //     room_calls.createRoom(room.id, room.name, room.description);
-    // });
-
-    // bookings.forEach(booking => {
-    //     booking_calls.createBooking(booking.id, booking.roomId, booking.userId, booking.date, booking.from, booking.until, booking.courseBooking); 
-    // });
-
-    await days.forEach(async day => {
+    days.forEach(async day => {
          await room_calls.createDay(day);
          
          rooms.forEach(async room => {

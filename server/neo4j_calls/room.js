@@ -10,10 +10,9 @@ exports.getAllRooms = async function () {
     try {
         rooms = await session.run('MATCH (r:Room) RETURN r', {
         });
-        let results = await rooms.records.map(row => {
+        return await rooms.records.map(row => {
             return row.get(0).properties;
-        })
-        return results;
+        });
     }
     catch (err) {
         console.error(err);
@@ -169,10 +168,9 @@ exports.getDay = async function (date) {
         day = await session.run('match (d:Date {date: $date})<-[:ROOM_DAY]-(r:RoomDate)<-[:SLOT_ROOM]-(s) RETURN {room: r.name, slots:collect(s)}', {
             date:date
         });
-        let results = await day.records.map(row => {
+        return await day.records.map(row => {
             return row.get(0);
-        })
-        return results;
+        });
     }
     catch (err) {
         console.error(err);

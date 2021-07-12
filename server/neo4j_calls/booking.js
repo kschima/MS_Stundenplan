@@ -10,10 +10,9 @@ exports.getAllBookings = async function () {
     try {
         bookings = await session.run('MATCH (b:Booking) RETURN b', {
         })
-        let results = await bookings.records.map(row => {
+        return await bookings.records.map(row => {
             return row.get(0).properties;
-        })
-        return results;
+        });
     }
     catch (err) {
         console.error(err);
@@ -31,10 +30,9 @@ exports.getBookingsByUserId = async function (userId) {
         bookings = await session.run('MATCH (b:Booking) WHERE b.userId = $userId RETURN b', {
             userId: userId
         })
-        let results = await bookings.records.map(row => {
+        return await bookings.records.map(row => {
             return row.get(0).properties;
-        })
-        return results;
+        });
     }
     catch (err) {
         console.error(err);
@@ -52,10 +50,9 @@ exports.getBookingsByDate = async function (date) {
         bookings = await session.run('MATCH (b:Booking) WHERE b.date = $date RETURN b', {
             date: date
         })
-        let results = await bookings.records.map(row => {
+        return await bookings.records.map(row => {
             return row.get(0).properties;
-        })
-        return results;
+        });
     }
     catch (err) {
         console.error(err);
@@ -74,9 +71,6 @@ exports.getBooking = async function (id) {
         booking = await session.run('MATCH (b:Booking) WHERE b.id = $id RETURN b', {
             id: id
         })
-        // let results = await booking.records.map(row => {
-        //     return row.get(0).properties;
-        // })
         return booking.records[0].get(0).properties;
     }
     catch (err) {

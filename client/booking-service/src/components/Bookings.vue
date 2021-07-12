@@ -16,12 +16,9 @@ export default {
 
   }),
   created() {
-    this.initialize();
   },
 
   methods: {
-    initialize() {
-    },
 
   }
 };
