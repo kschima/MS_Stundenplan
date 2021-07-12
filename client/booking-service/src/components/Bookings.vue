@@ -13,10 +13,7 @@ export default {
   components: { BookingsOverview, RoomsOverview },
   data: () => ({
 
-
   }),
-  created() {
-  },
 
   methods: {
 
