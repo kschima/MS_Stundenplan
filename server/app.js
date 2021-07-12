@@ -19,7 +19,7 @@ app.get('/', (req, res) => res.send('Hello. This is the /booking-api'))
 app.listen(8080);
 
 app.use(function (req, res, next) {
-    const allowedOrigins = ['http://localhost:8080', 'http://localhost:8081', 'https://sgse2021-ilias.westeurope.cloudapp.azure.com/'];
+    const allowedOrigins = ['https://localhost', 'http://localhost', 'https://sgse2021-ilias.westeurope.cloudapp.azure.com/'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
          res.setHeader('Access-Control-Allow-Origin', origin);
