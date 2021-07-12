@@ -223,14 +223,6 @@ let dayBooking = [
     },
   ];
 
-
-// router.get('/', async function (req, res, next) {
-//     let result = dayBooking;
-//     console.log("RESULT IS", result);
-//     res.status(200).send(result); 
-//     return { result };
-// })
-
 router.get('/:day', async function (req, res, next) {
     let result = await room_calls.getDay(req.params.day);
     console.log("RESULT IS", result);

@@ -102,10 +102,9 @@ export default {
     this.refreshDayBookings();
   },
   methods: {
-    initialize() {},
 
     refreshMyBookings() {
-
+      console.log("refreshMyBookings")
     },
 
     refreshDayBookings() {
@@ -123,7 +122,7 @@ export default {
         this.refreshDayBookings();
       });
     },
-    
+
   },
 };
 </script>

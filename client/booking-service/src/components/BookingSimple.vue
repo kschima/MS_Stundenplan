@@ -90,7 +90,6 @@ export default {
     this.refreshDayBookings();
   },
   methods: {
-    initialize() {},
 
     refreshRooms() {
       this.loading = true;

@@ -9,11 +9,10 @@ exports.deleteNodesAndRelationships = async function () {
     let all = "Nothing deleted";
     try {
         all = await session.run('MATCH (n) DETACH DELETE n', {
-        })
-        let results = await all.records.map(row => {
+        });
+        return await all.records.map(row => {
             return row.get(0).properties;
-        })
-        return results;
+        });
     }
     catch (err) {
         console.error(err);
