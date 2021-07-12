@@ -19,12 +19,8 @@ app.get('/', (req, res) => res.send('Hello. This is the /booking-api'))
 app.listen(8080);
 
 app.use(function (req, res, next) {
-    const allowedOrigins = ['https://localhost', 'http://localhost', 'https://sgse2021-ilias.westeurope.cloudapp.azure.com/'];
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-         res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', '*');
     res.header(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept'
