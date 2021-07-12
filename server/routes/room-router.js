@@ -1,11 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const room_calls = require('../neo4j_calls/room');
+let roomsJson = require('../config/init/rooms.json');
+
+let filterById = (jsonObject, id) => { 
+    return jsonObject.filter(function (jsonObject) { 
+        return (jsonObject['id'] == id); 
+    })[0]; 
+}
 
 router.get('/:id', async function (req, res, next) {
-    let result = await room_calls.getRoom(req.params.id);
+    //let result = await room_calls.getRoom(req.params.id);
+    let result = filterById(roomsJson, req.params.id);
     console.log("RESULT IS", result);
-    res.status(200).send(result);   
+    res.status(200).send(result);
     return { result };
 })
 
