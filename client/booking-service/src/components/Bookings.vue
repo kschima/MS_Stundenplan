@@ -13,9 +13,7 @@ export default {
   data: () => ({}),
 
   methods: {
-    increment() {
-      console.log(this.$cookies.get('current-user'));
-    },
+
   },
 };
 </script>

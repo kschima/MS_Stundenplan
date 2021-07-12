@@ -118,7 +118,7 @@ export default {
     },
 
     book(id) {
-      let userId = this.testUserId ;
+      let userId = localStorage.getItem("current-user") ? localStorage.getItem("current-user").uid : this.testUserId;
       console.log("book " + id);
       console.log("userID: " + userId)
       let data = {userId: userId};

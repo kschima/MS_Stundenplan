@@ -47,7 +47,7 @@ export default {
   methods: {
 
     refreshBookings() {
-      let userId = this.$cookies.get('current-user') ? this.$cookies.get('current-user').uid : this.testUserId;
+      let userId = localStorage.getItem("current-user") ? localStorage.getItem("current-user").uid : this.testUserId;
       this.loading = true;
       ApiService.getMyBookings(userId).then((res) => {
         this.bookings = res;
