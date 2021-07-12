@@ -16,7 +16,8 @@
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
-          :to="item.to"
+          :href="item.to"
+          @click="item.click"
           router
           exact
         >
@@ -57,35 +58,32 @@ export default {
       items: [
         {
           title: "Startseite",
-          to: "/"
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/users/"
         },
         {
-          title: "Mail",
-          to: "/"
+          title: "Nachrichten",
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/messages/"
         },
         {
           title: "Kurse",
-          to: "/"
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/courses/"
         },
         {
-          title: "Stundenplan",
-          to: "/"
+          title: "Termine",
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/appointments/"
         },
         {
           title: "Prüfungen",
-          to: "/"
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/exams/"
         },
         {
           title: "Raumbuchung",
-          to: "/Bookings"
-        },
-                {
-          title: "Raumplanung",
-          to: "/"
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/bookings/"
         },
         {
-          title: "Ein-/Ausloggen",
-          to: "/"
+          title: "Ausloggen",
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/users/",
+          click: localStorage.removeItem("current-user")
         }
       ],
       accountMenuItems: [
