@@ -67,7 +67,7 @@
 
               <v-list dense>
                 <v-list-item
-                  v-for="slot in sorted(item.slots)"
+                  v-for="slot in item.slots"
                   v-bind:key="slot.properties.id"
                   :disabled="slot.properties.booked"
                   @click="book(slot.identity.low)"
