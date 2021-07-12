@@ -67,9 +67,9 @@
 
               <v-list dense>
                 <v-list-item
-                  v-for="slot in item.slots"
-                  
+                  v-for="slot in sorted(item.slots)"
                   v-bind:key="slot.properties.id"
+                  v-bind:sort-by="slot.properties.from"
                   :disabled="slot.properties.booked"
                   @click="book(slot.identity.low)"
                 >
@@ -125,6 +125,13 @@ export default {
       ApiService.book(id, data).then((res) => {
         this.refreshDayBookings();
       });
+    },
+    mycomparator(a,b) {
+      return parseInt(a.properties.id, 10) - parseInt(b.properties.id, 10);
+    },
+    sorted(array) {
+      console.log(array)
+      return array.sort(this.mycomparator)
     },
 
   },
