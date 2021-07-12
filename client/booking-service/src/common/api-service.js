@@ -59,11 +59,15 @@ const ApiService = {
   getDayBooking(date) {
     return this.execute('get', `/day/${date}`)
   },
-  book(id) {
-    return this.execute('get', `/day/book/${id}`)
+  book(id, userId) {
+    console.log(userId);
+    return this.execute('put', `/day/book/${id}`, userId)
   },
   getMyBookings(userId) {
     return this.execute('get', `/day/mybooks/${userId}`)
+  },
+  cancelSlot(id) {
+    return this.execute('get', `/day/cancel/${id}`)
   },
 }
 

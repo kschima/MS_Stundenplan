@@ -96,6 +96,7 @@ export default {
       .toISOString()
       .substr(0, 10),
     menu: false,
+    testUserId: "LhlFb8g5C6hu8cTMntTdgyR4z7X2"
   }),
   created() {
     this.refreshMyBookings();
@@ -117,8 +118,11 @@ export default {
     },
 
     book(id) {
+      let userId = this.testUserId ;
       console.log("book " + id);
-      ApiService.book(id).then((res) => {
+      console.log("userID: " + userId)
+      let data = {userId: userId};
+      ApiService.book(id, data).then((res) => {
         this.refreshDayBookings();
       });
     },

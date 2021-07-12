@@ -28,7 +28,12 @@ export default {
   methods: {
     getUsername() {
       let currentUser = this.$cookies.get('current-user');
-      return currentUser.firstname + " " + currentUser.lastname;
+      if (currentUser) {
+        return currentUser.firstname + " " + currentUser.lastname
+      }
+      else {
+        return "Anonymous"
+      }
     },
   },
 };

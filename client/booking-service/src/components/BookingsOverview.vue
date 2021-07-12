@@ -12,7 +12,7 @@
       class="elevation-1"
     >
       <template v-slot:item.cancel="{ item }">
-        <v-btn @click="cancelBooking(item)"> stornieren </v-btn>
+        <v-btn @click="cancelBooking(item.id.low)"> stornieren </v-btn>
       </template>
     </v-data-table>
   </v-container>
@@ -29,17 +29,17 @@ export default {
         text: "ID",
         align: "start",
         sortable: false,
-        value: "id",
+        value: "id.low",
       },
       { text: "Tag", value: "day" },
       { text: "Datum", value: "date" },
-      { text: "Raum", value: "roomId" },
+      { text: "Raum", value: "room" },
       { text: "Von", value: "from" },
       { text: "Bis", value: "until" },
       { text: "", value: "cancel" },
     ],
     bookings: [],
-    userId: 2,
+    testUserId: "LhlFb8g5C6hu8cTMntTdgyR4z7X2"
   }),
   created() {
     this.refreshBookings();
@@ -47,18 +47,19 @@ export default {
   methods: {
 
     refreshBookings() {
+      let userId = this.$cookies.get('current-user') ? this.$cookies.get('current-user').uid : this.testUserId;
       this.loading = true;
-      ApiService.getBookingsByUserId(this.userId).then((res) => {
+      ApiService.getMyBookings(userId).then((res) => {
         this.bookings = res;
         console.log(res);
       });
       this.loading = false;
     },
 
-    cancelBooking(item) {
-      ApiService.deleteBooking(item.id).then((res) => {
+    cancelBooking(id) {
+      ApiService.cancelSlot(id).then((res) => {
         this.refreshBookings();
-        console.log(item.id + " canceled.");
+        console.log(id + " canceled.");
       });
     },
   },
