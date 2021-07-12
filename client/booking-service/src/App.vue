@@ -17,6 +17,7 @@
           v-for="(item, i) in items"
           :key="i"
           :href="item.to"
+          @click="item.click"
           router
           exact
         >
@@ -80,8 +81,9 @@ export default {
           to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/bookings/"
         },
         {
-          title: "Ein-/Ausloggen",
-          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/users/"
+          title: "Ausloggen",
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/users/",
+          click: localStorage.removeItem("current-user")
         }
       ],
       accountMenuItems: [
