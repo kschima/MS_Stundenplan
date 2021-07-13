@@ -6,11 +6,7 @@
         <div class="white--text">{{ getUsername() }}</div>
       </template>
       
-      <v-list>
-        <v-list-item v-for="(item, index) in items" :key="index">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
+
     </v-menu>
   </div>
 </template>
@@ -18,12 +14,7 @@
 <script>
 export default {
   data: () => ({
-    items: [
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me 2" }
-    ],
+    items: [],
     testUser: {"uid":"LhlFb8g5C6hu8cTMntTdgyR4z7X2","firstname":"Julia","lastname":"Meier","role":1}
   }),
   methods: {
