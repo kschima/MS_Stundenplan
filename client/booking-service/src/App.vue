@@ -27,9 +27,9 @@
       </v-list>
     </v-navigation-drawer>
     
-    <v-app-bar :clipped-left="clipped" fixed app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <h2>Raumbuchung</h2>
+    <v-app-bar color="indigo" :clipped-left="clipped" fixed app>
+      <v-app-bar-nav-icon color="white" @click.stop="drawer = !drawer" />
+      <h2 class="white--text">Raumbuchung</h2>
       <v-spacer></v-spacer>
       <user-menu></user-menu>
     </v-app-bar>

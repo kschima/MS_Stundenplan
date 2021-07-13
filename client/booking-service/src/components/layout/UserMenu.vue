@@ -2,15 +2,11 @@
   <div class="text-center">
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-icon v-bind="attrs" v-on="on" x-large>mdi-account-circle</v-icon>
-        {{ getUsername() }}
+        <v-icon color="white" v-bind="attrs" v-on="on" x-large>mdi-account-circle</v-icon>
+        <div class="white--text">{{ getUsername() }}</div>
       </template>
       
-      <v-list>
-        <v-list-item v-for="(item, index) in items" :key="index">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
+
     </v-menu>
   </div>
 </template>
@@ -18,12 +14,7 @@
 <script>
 export default {
   data: () => ({
-    items: [
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me 2" }
-    ],
+    items: [],
     testUser: {"uid":"LhlFb8g5C6hu8cTMntTdgyR4z7X2","firstname":"Julia","lastname":"Meier","role":1}
   }),
   methods: {
