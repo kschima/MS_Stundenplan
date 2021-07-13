@@ -65,11 +65,11 @@ export default {
         },
         {
           title: "Kurse",
-          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/courses/"
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/courses/courses"
         },
         {
           title: "Termine",
-          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/appointments/"
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/courses/appointments"
         },
         {
           title: "Prüfungen",
@@ -81,7 +81,7 @@ export default {
         },
         {
           title: "Ausloggen",
-          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/users/logout/"
+          to: "https://sgse2021-ilias.westeurope.cloudapp.azure.com/users/logout"
         }
       ],
       accountMenuItems: [
