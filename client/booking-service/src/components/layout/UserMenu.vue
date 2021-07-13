@@ -2,8 +2,8 @@
   <div class="text-center">
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-icon v-bind="attrs" v-on="on" x-large>mdi-account-circle</v-icon>
-        {{ getUsername() }}
+        <v-icon color="white" v-bind="attrs" v-on="on" x-large>mdi-account-circle</v-icon>
+        <div class="white--text">{{ getUsername() }}</div>
       </template>
       
       <v-list>
